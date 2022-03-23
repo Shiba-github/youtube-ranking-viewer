@@ -1,4 +1,5 @@
-const axios = require("axios").default
+import axios from "axios"
+import { API_KEY } from "../local/constants"
 type youtubeSearchTypes = {
     part?:string;
     channelId?:string;
@@ -9,7 +10,7 @@ type youtubeSearchTypes = {
     pageToken?:string;
     publishedAfter?:string;
     publishedBefore?:string;
-    q?:string;
+    q:string;
     regionCode?:string;
     safeSearch?:string;
     topicId?:string;
@@ -28,7 +29,7 @@ type youtubeSearchTypes = {
 type youtubeVideosTypes = {
     part?:string;
     chart?:string;
-    id?:string;
+    id:string;
     maxResults?:number;
     regionCode?:string;
     videoCategoryId?:string;
@@ -36,8 +37,9 @@ type youtubeVideosTypes = {
 
 class YoutubeApiWrapper {
     constructor() {
+        this.API_KEY = API_KEY
     }
-    readonly API_KEY = ""
+    readonly API_KEY
     readonly BASE_URL = "https://www.googleapis.com/youtube/v3";
 
     /**

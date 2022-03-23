@@ -105,3 +105,6 @@ dist
 
 # local file
 local/
+
+# VSCode
+.vscode/

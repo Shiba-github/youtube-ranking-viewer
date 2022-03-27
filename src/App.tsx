@@ -5,11 +5,11 @@ import AggregationPeriodButtons from './components/AggregationPeriodButtons'
 const App = () => {
     const [selectedPeriod, setSelectedPeriod] = useState('daily')
     return (
-    <ChakraProvider>
-        <Header></Header>
+        <ChakraProvider>
+            <Header></Header>
             <AggregationPeriodButtons onSelectedPeriod={(period: string) => setSelectedPeriod(period)}></AggregationPeriodButtons>
-    </ChakraProvider>
-)
+        </ChakraProvider>
+    )
 }
 
 export default App

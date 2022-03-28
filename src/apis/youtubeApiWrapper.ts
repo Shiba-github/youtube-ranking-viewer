@@ -1,38 +1,38 @@
-import axios from "axios"
-import { API_KEY } from "../local/constants"
+import axios from 'axios'
+import { API_KEY } from '../../local/constants'
 type youtubeSearchTypes = {
-    part?:string;
-    channelId?:string;
-    maxResults?:number;
-    order?:string;
-    channelType?:string;
-    eventType?:string;
-    pageToken?:string;
-    publishedAfter?:string;
-    publishedBefore?:string;
-    q:string;
-    regionCode?:string;
-    safeSearch?:string;
-    topicId?:string;
-    type?:string;
-    videoCaption?:string;
-    videoCategoryId?:string;
-    videoDefinition?:string;
-    videoDimension?:string;
-    videoDuration?:string;
-    videoEmbeddable?:string;
-    videoLicense?:string;
-    videoSyndicated?:string;
-    videoType?:string;
+    part?: string
+    channelId?: string
+    maxResults?: number
+    order?: string
+    channelType?: string
+    eventType?: string
+    pageToken?: string
+    publishedAfter?: string
+    publishedBefore?: string
+    q: string
+    regionCode?: string
+    safeSearch?: string
+    topicId?: string
+    type?: string
+    videoCaption?: string
+    videoCategoryId?: string
+    videoDefinition?: string
+    videoDimension?: string
+    videoDuration?: string
+    videoEmbeddable?: string
+    videoLicense?: string
+    videoSyndicated?: string
+    videoType?: string
 }
 
 type youtubeVideosTypes = {
-    part?:string;
-    chart?:string;
-    id:string;
-    maxResults?:number;
-    regionCode?:string;
-    videoCategoryId?:string;
+    part?: string
+    chart?: string
+    id: string
+    maxResults?: number
+    regionCode?: string
+    videoCategoryId?: string
 }
 
 class YoutubeApiWrapper {
@@ -40,7 +40,7 @@ class YoutubeApiWrapper {
         this.API_KEY = API_KEY
     }
     readonly API_KEY
-    readonly BASE_URL = "https://www.googleapis.com/youtube/v3";
+    readonly BASE_URL = 'https://www.googleapis.com/youtube/v3'
 
     /**
      * youtubeAPIのSearchリクエストを利用しJSONが格納されたPromeiseオブジェクトを返す
@@ -158,62 +158,62 @@ class YoutubeApiWrapper {
      * any – すべての動画を返します。
      * episode – 番組のエピソードのみを取得します。
      * movie – 動画のみを取得します。
-     * 
+     *
      * @returns {Promise}
      */
     public fetchSearchApi({
-        part="snippet",
-        channelId="",
-        channelType="any",
-        eventType="completed",
-        maxResults=5,
-        order="viewCount",
-        pageToken="",
-        publishedAfter="",
-        publishedBefore="",
-        q="",
-        regionCode="",
-        safeSearch="none",
-        topicId="",
-        type="video",
-        videoCaption="any",
-        videoCategoryId="0",
-        videoDefinition="any",
-        videoDimension="any",
-        videoDuration="any",
-        videoEmbeddable="any",
-        videoLicense="any",
-        videoSyndicated="any",
-        videoType="any",
-    }:youtubeSearchTypes):Promise<JSON> {
-        return axios.get(this.BASE_URL+"/search", {
-                params:{
-                    key: this.API_KEY,
-                    part: part,
-                    channelId: channelId,
-                    channelType: channelType,
-                    eventType: eventType,
-                    maxResults: maxResults,
-                    order: order,
-                    pageToken: pageToken,
-                    // publishedAfter: publishedAfter,
-                    // publishedBefore: publishedBefore,
-                    q: q,
-                    // regionCode: regionCode,
-                    safeSearch: safeSearch,
-                    topicId: topicId,
-                    type: type,
-                    videoCaption: videoCaption,
-                    // videoCategoryId: videoCategoryId,
-                    videoDefinition: videoDefinition,
-                    videoDimension: videoDimension,
-                    videoDuration: videoDuration,
-                    videoEmbeddable: videoEmbeddable,
-                    videoLicense: videoLicense,
-                    videoSyndicated: videoSyndicated,
-                    videoType: videoType,
-                }
-            })
+        part = 'snippet',
+        channelId = '',
+        channelType = 'any',
+        eventType = 'completed',
+        maxResults = 5,
+        order = 'viewCount',
+        pageToken = '',
+        publishedAfter = '',
+        publishedBefore = '',
+        q = '',
+        regionCode = '',
+        safeSearch = 'none',
+        topicId = '',
+        type = 'video',
+        videoCaption = 'any',
+        videoCategoryId = '0',
+        videoDefinition = 'any',
+        videoDimension = 'any',
+        videoDuration = 'any',
+        videoEmbeddable = 'any',
+        videoLicense = 'any',
+        videoSyndicated = 'any',
+        videoType = 'any',
+    }: youtubeSearchTypes): Promise<JSON> {
+        return axios.get(this.BASE_URL + '/search', {
+            params: {
+                key: this.API_KEY,
+                part: part,
+                channelId: channelId,
+                channelType: channelType,
+                eventType: eventType,
+                maxResults: maxResults,
+                order: order,
+                pageToken: pageToken,
+                // publishedAfter: publishedAfter,
+                // publishedBefore: publishedBefore,
+                q: q,
+                // regionCode: regionCode,
+                safeSearch: safeSearch,
+                topicId: topicId,
+                type: type,
+                videoCaption: videoCaption,
+                // videoCategoryId: videoCategoryId,
+                videoDefinition: videoDefinition,
+                videoDimension: videoDimension,
+                videoDuration: videoDuration,
+                videoEmbeddable: videoEmbeddable,
+                videoLicense: videoLicense,
+                videoSyndicated: videoSyndicated,
+                videoType: videoType,
+            },
+        })
     }
 
     /**
@@ -221,17 +221,17 @@ class YoutubeApiWrapper {
      * @param {string} part
      * part パラメータには、API レスポンスに含まれる 1 つまたは複数の video リソース プロパティをカンマ区切りリストの形式で指定します。
      * パラメータ値に指定できる part 名は、
-     * id、 
-     * snippet、 
-     * contentDetails、 
-     * fileDetails、 
-     * iveStreamingDetails、 
-     * player、 
-     * processingDetails、 
-     * recordingDetails、 
-     * statistics、 
-     * status、 
-     * suggestions、 
+     * id、
+     * snippet、
+     * contentDetails、
+     * fileDetails、
+     * iveStreamingDetails、
+     * player、
+     * processingDetails、
+     * recordingDetails、
+     * statistics、
+     * status、
+     * suggestions、
      * topicDetails などです。
      * このパラメータに子プロパティを持つプロパティが指定されている場合、その子プロパティもレスポンスに含まれます。
      * たとえば、video リソースで、snippet プロパティに channelId、title、description、tags、categoryId などのプロパティが含まれているとします。
@@ -254,23 +254,23 @@ class YoutubeApiWrapper {
      * デフォルトでは、グラフは特定のカテゴリに制限されていません。デフォルト値は 0 です。
      */
     public fetchVideoApi({
-        part="snippet",
-        chart="mostPopular",
-        id="",
-        maxResults=5,
-        regionCode="",
-        videoCategoryId="0",
-    }:youtubeVideosTypes):Promise<JSON> {
-        return axios.get(this.BASE_URL+"/videos", {
-            params:{
+        part = 'snippet',
+        chart = 'mostPopular',
+        id = '',
+        maxResults = 5,
+        regionCode = '',
+        videoCategoryId = '0',
+    }: youtubeVideosTypes): Promise<JSON> {
+        return axios.get(this.BASE_URL + '/videos', {
+            params: {
                 key: this.API_KEY,
                 part: part,
                 // chart: chart,
                 id: id,
                 maxResults: maxResults,
                 // regionCode: regionCode,
-                videoCategoryId: videoCategoryId
-            }
+                videoCategoryId: videoCategoryId,
+            },
         })
     }
 }

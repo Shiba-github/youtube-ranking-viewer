@@ -23,8 +23,15 @@ module.exports = {
         rules: [
             {
                 loader: 'ts-loader',
-                test: /\.tsx$/,
+                test: /\.(tsx|ts)$/,
             },
+            {
+                loader:'file-loader',
+                test:/\.(gif|png|jpg)$/i,
+                options: {
+                    outputPath: 'images',
+                },
+            }
         ],
     },
     plugins: [

@@ -32,7 +32,7 @@
         "prettier"
     ],
     "rules": {
-        // TypeScirpt なので prop-types は不要
+        // TypeScript なので prop-types は不要
         "react/prop-types": "off",
         "@typescript-eslint/no-var-requires": "off"
     }

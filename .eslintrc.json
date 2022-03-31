@@ -31,9 +31,13 @@
         "plugin:react-hooks/recommended",
         "prettier"
     ],
+    "ignorePatterns": [
+        "dist/"
+    ],
     "rules": {
         // TypeScript なので prop-types は不要
         "react/prop-types": "off",
-        "@typescript-eslint/no-var-requires": "off"
+        "@typescript-eslint/no-var-requires": "off",
+        "no-control-regex": "off"
     }
 }

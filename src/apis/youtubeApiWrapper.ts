@@ -271,7 +271,13 @@ class YoutubeApiWrapper {
         })
     }
 
-    private publishedAfterTime(selectedPeriod: string) {
+    /**
+     * @param {string} selectedPeriod
+     * 動画取得期間を選択する
+     * stringでhourly/daily/weekly/monthly
+     * @return {Date} 現在時刻から取得期間分の差分をとった日付を返却
+     */
+    private publishedAfterTime(selectedPeriod: string): Date {
         const currentTime = new Date()
         if (selectedPeriod === 'hourly') {
             return subHours(currentTime, 1)

@@ -168,7 +168,6 @@ class YoutubeApiWrapper {
         order = 'viewCount',
         pageToken = '',
         publishedAfter = '',
-        // publishedBefore = '2015-01-01T00:00:00Z',
         q = '',
         regionCode = '',
         safeSearch = 'none',

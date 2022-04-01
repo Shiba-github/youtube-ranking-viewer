@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { API_KEY } from '../../local/constants'
+import { subMonths, subWeeks, subDays, subHours, formatRFC3339 } from 'date-fns'
 type youtubeSearchTypes = {
     part?: string
     channelId?: string
@@ -81,11 +82,8 @@ class YoutubeApiWrapper {
      * pageToken パラメータには、返される結果セットに含める特定のページを指定します。
      * API レスポンスでは、nextPageToken と prevPageToken プロパティは取得可能な他のページを表します。
      * @param {Date} publishedAfter
+     * stringのhourly, daily, weekly, monthlyを渡すことができます。それ以外の値ではすべて(1990-01-01T00:00:00Z)を返します。
      * publishedAfter パラメータは、指定した日時より後に作成されたリソースのみが API レスポンスに含まれるように指定します。
-     * この値は RFC 3339 形式の date-time 値です（1970-01-01T00:00:00Z）。
-     * @param {Date} publishedBefore
-     * publishedBefore パラメータは、指定した日時より前に作成されたリソースのみが API レスポンスに含まれるように指定します。
-     * この値は RFC 3339 形式の date-time 値です（1970-01-01T00:00:00Z）。
      * @param {string} q
      * q パラメータは検索クエリを指定します。
      * @param {string} regionCode
@@ -170,7 +168,7 @@ class YoutubeApiWrapper {
         order = 'viewCount',
         pageToken = '',
         publishedAfter = '',
-        publishedBefore = '',
+        // publishedBefore = '2015-01-01T00:00:00Z',
         q = '',
         regionCode = '',
         safeSearch = 'none',
@@ -196,8 +194,8 @@ class YoutubeApiWrapper {
                 maxResults: maxResults,
                 order: order,
                 pageToken: pageToken,
-                // publishedAfter: publishedAfter,
-                // publishedBefore: publishedBefore,
+                publishedAfter: formatRFC3339(this.publishedAfterTime(publishedAfter)),
+                publishedBefore: formatRFC3339(new Date()),
                 q: q,
                 // regionCode: regionCode,
                 safeSearch: safeSearch,
@@ -272,6 +270,23 @@ class YoutubeApiWrapper {
                 videoCategoryId: videoCategoryId,
             },
         })
+    }
+
+    private publishedAfterTime(selectedPeriod: string) {
+        const currentTime = new Date()
+        if (selectedPeriod === 'hourly') {
+            return subHours(currentTime, 1)
+        }
+        if (selectedPeriod === 'daily') {
+            return subDays(currentTime, 1)
+        }
+        if (selectedPeriod === 'weekly') {
+            return subWeeks(currentTime, 1)
+        }
+        if (selectedPeriod === 'monthly') {
+            return subMonths(currentTime, 1)
+        }
+        return new Date('1990-01-01T00:00:00')
     }
 }
 

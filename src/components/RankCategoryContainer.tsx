@@ -12,7 +12,7 @@ const MAX_RESULTS = 1 //表示件数
 const RankCategoryContainer = ({ categoryName }: Props) => {
     const [apiItems, setApiItems] = useState('')
     const [videoApiItems, setVideoApiItems] = useState('')
-    const indexArray = [...Array(MAX_RESULTS)].map((_, index) => index)
+    const indexNumberArray = [...Array(MAX_RESULTS)].map((_, index) => index)
     if (categoryName) {
         let queryIdList = '' //"id1, id2, id3, ..."
         const youtubeApiWrapper = new YoutubeApiWrapper()
@@ -45,7 +45,7 @@ const RankCategoryContainer = ({ categoryName }: Props) => {
                 <Center bg="lightgray" height="50px" width="200px" marginLeft="7px">
                     {categoryName}
                 </Center>
-                {indexArray.map((index) => {
+                {indexNumberArray.map((index) => {
                     return <Panel key={index} index={index} apiItems={apiItems} videoApiItems={videoApiItems}></Panel>
                 })}
             </Flex>
@@ -53,7 +53,7 @@ const RankCategoryContainer = ({ categoryName }: Props) => {
     } else {
         return (
             <Flex flexDirection="column" marginTop="50px">
-                {indexArray.map((index) => {
+                {indexNumberArray.map((index) => {
                     return (
                         <Flex key={index} alignItems="center" justifyContent="center" height="230px" fontSize={60} margin="7px">
                             {index}

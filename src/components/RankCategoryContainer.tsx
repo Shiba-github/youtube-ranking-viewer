@@ -56,7 +56,7 @@ const RankCategoryContainer = ({ categoryName }: Props) => {
                 {indexNumberArray.map((index) => {
                     return (
                         <Flex key={index} alignItems="center" justifyContent="center" height="230px" fontSize={60} margin="7px">
-                            {index}
+                            {index+1}
                         </Flex>
                     )
                 })}

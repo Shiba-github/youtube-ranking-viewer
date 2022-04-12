@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { API_KEY } from '../../local/constants'
 import { subMonths, subWeeks, subDays, subHours, formatRFC3339 } from 'date-fns'
+type publishedAfterTypes = 'hourly' | 'daily' | 'weekly' | 'monthly'
+
 type youtubeSearchTypes = {
     part?: string
     channelId?: string
@@ -9,7 +11,7 @@ type youtubeSearchTypes = {
     channelType?: string
     eventType?: string
     pageToken?: string
-    publishedAfter?: string
+    publishedAfter?: publishedAfterTypes
     publishedBefore?: string
     q: string
     regionCode?: string
@@ -167,7 +169,7 @@ class YoutubeApiWrapper {
         maxResults = 5,
         order = 'viewCount',
         pageToken = '',
-        publishedAfter = '',
+        publishedAfter,
         q = '',
         regionCode = '',
         safeSearch = 'none',
@@ -214,7 +216,7 @@ class YoutubeApiWrapper {
     }
 
     /**
-     * youtubeAPIのVideosリクエストを利用しJSONが格納されたPromeiseオブジェクトを返す
+     * youtubeAPIのVideosリクエストを利用しJSONが格納されたPromiseオブジェクトを返す
      * @param {string} part
      * part パラメータには、API レスポンスに含まれる 1 つまたは複数の video リソース プロパティをカンマ区切りリストの形式で指定します。
      * パラメータ値に指定できる part 名は、
@@ -277,7 +279,7 @@ class YoutubeApiWrapper {
      * stringでhourly/daily/weekly/monthly
      * @return {Date} 現在時刻から取得期間分の差分をとった日付を返却
      */
-    private publishedAfterTime(selectedPeriod: string): Date {
+    private publishedAfterTime(selectedPeriod: publishedAfterTypes | undefined): Date {
         const currentTime = new Date()
         if (selectedPeriod === 'hourly') {
             return subHours(currentTime, 1)

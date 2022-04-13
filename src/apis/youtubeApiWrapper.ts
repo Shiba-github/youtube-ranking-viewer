@@ -1,5 +1,8 @@
 import axios from 'axios'
 import { API_KEY } from '../../local/constants'
+import { subMonths, subWeeks, subDays, subHours, formatRFC3339 } from 'date-fns'
+type publishedAfterTypes = 'hourly' | 'daily' | 'weekly' | 'monthly'
+
 type youtubeSearchTypes = {
     part?: string
     channelId?: string
@@ -8,7 +11,7 @@ type youtubeSearchTypes = {
     channelType?: string
     eventType?: string
     pageToken?: string
-    publishedAfter?: string
+    publishedAfter?: publishedAfterTypes
     publishedBefore?: string
     q: string
     regionCode?: string
@@ -81,11 +84,8 @@ class YoutubeApiWrapper {
      * pageToken パラメータには、返される結果セットに含める特定のページを指定します。
      * API レスポンスでは、nextPageToken と prevPageToken プロパティは取得可能な他のページを表します。
      * @param {Date} publishedAfter
+     * stringのhourly, daily, weekly, monthlyを渡すことができます。それ以外の値ではすべて(1990-01-01T00:00:00Z)を返します。
      * publishedAfter パラメータは、指定した日時より後に作成されたリソースのみが API レスポンスに含まれるように指定します。
-     * この値は RFC 3339 形式の date-time 値です（1970-01-01T00:00:00Z）。
-     * @param {Date} publishedBefore
-     * publishedBefore パラメータは、指定した日時より前に作成されたリソースのみが API レスポンスに含まれるように指定します。
-     * この値は RFC 3339 形式の date-time 値です（1970-01-01T00:00:00Z）。
      * @param {string} q
      * q パラメータは検索クエリを指定します。
      * @param {string} regionCode
@@ -169,8 +169,7 @@ class YoutubeApiWrapper {
         maxResults = 5,
         order = 'viewCount',
         pageToken = '',
-        publishedAfter = '',
-        publishedBefore = '',
+        publishedAfter = 'monthly',
         q = '',
         regionCode = '',
         safeSearch = 'none',
@@ -196,8 +195,8 @@ class YoutubeApiWrapper {
                 maxResults: maxResults,
                 order: order,
                 pageToken: pageToken,
-                // publishedAfter: publishedAfter,
-                // publishedBefore: publishedBefore,
+                publishedAfter: formatRFC3339(this.publishedAfterTime(publishedAfter)),
+                publishedBefore: formatRFC3339(new Date()),
                 q: q,
                 // regionCode: regionCode,
                 safeSearch: safeSearch,
@@ -217,7 +216,7 @@ class YoutubeApiWrapper {
     }
 
     /**
-     * youtubeAPIのVideosリクエストを利用しJSONが格納されたPromeiseオブジェクトを返す
+     * youtubeAPIのVideosリクエストを利用しJSONが格納されたPromiseオブジェクトを返す
      * @param {string} part
      * part パラメータには、API レスポンスに含まれる 1 つまたは複数の video リソース プロパティをカンマ区切りリストの形式で指定します。
      * パラメータ値に指定できる part 名は、
@@ -272,6 +271,29 @@ class YoutubeApiWrapper {
                 videoCategoryId: videoCategoryId,
             },
         })
+    }
+
+    /**
+     * @param {string} selectedPeriod
+     * 動画取得期間を選択する
+     * stringでhourly/daily/weekly/monthly
+     * @return {Date} 現在時刻から取得期間分の差分をとった日付を返却
+     */
+    private publishedAfterTime(selectedPeriod: publishedAfterTypes): Date {
+        const currentTime = new Date()
+        if (selectedPeriod === 'hourly') {
+            return subHours(currentTime, 1)
+        }
+        if (selectedPeriod === 'daily') {
+            return subDays(currentTime, 1)
+        }
+        if (selectedPeriod === 'weekly') {
+            return subWeeks(currentTime, 1)
+        }
+        if (selectedPeriod === 'monthly') {
+            return subMonths(currentTime, 1)
+        }
+        return subMonths(currentTime, 1)
     }
 }
 

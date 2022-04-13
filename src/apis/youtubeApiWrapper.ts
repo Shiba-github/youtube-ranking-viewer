@@ -169,7 +169,7 @@ class YoutubeApiWrapper {
         maxResults = 5,
         order = 'viewCount',
         pageToken = '',
-        publishedAfter,
+        publishedAfter = 'monthly',
         q = '',
         regionCode = '',
         safeSearch = 'none',
@@ -279,7 +279,7 @@ class YoutubeApiWrapper {
      * stringでhourly/daily/weekly/monthly
      * @return {Date} 現在時刻から取得期間分の差分をとった日付を返却
      */
-    private publishedAfterTime(selectedPeriod: publishedAfterTypes | undefined): Date {
+    private publishedAfterTime(selectedPeriod: publishedAfterTypes): Date {
         const currentTime = new Date()
         if (selectedPeriod === 'hourly') {
             return subHours(currentTime, 1)
@@ -293,7 +293,7 @@ class YoutubeApiWrapper {
         if (selectedPeriod === 'monthly') {
             return subMonths(currentTime, 1)
         }
-        return new Date('1990-01-01T00:00:00')
+        return subMonths(currentTime, 1)
     }
 }
 

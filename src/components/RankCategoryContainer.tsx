@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Center, Flex } from '@chakra-ui/react'
+import { Center, Flex, Text } from '@chakra-ui/react'
 import YoutubeApiWrapper from '../apis/youtubeApiWrapper'
 import Panel from './Panel'
 
@@ -7,7 +7,7 @@ type Props = {
     categoryName: string
 }
 
-const MAX_RESULTS = 1 //表示件数
+const MAX_RESULTS = 7 //表示件数
 
 const RankCategoryContainer = ({ categoryName }: Props) => {
     const [apiItems, setApiItems] = useState('')
@@ -41,8 +41,19 @@ const RankCategoryContainer = ({ categoryName }: Props) => {
             })
 
         return (
-            <Flex flexDirection="column">
-                <Center bg="lightgray" height="50px" width="200px" marginLeft="7px">
+            <Flex flexDirection="column" padding="16px" borderRight="1px" borderColor="blackAlpha.300">
+                <Center
+                    marginBottom="16px"
+                    borderBottom="2px"
+                    borderColor="blackAlpha.600"
+                    borderStyle="solid"
+                    color="blackAlpha.700"
+                    fontSize="32px"
+                    fontWeight="medium"
+                    height="50px"
+                    width="300px"
+                    borderRadius="2px"
+                >
                     {categoryName}
                 </Center>
                 {indexNumberArray.map((index) => {
@@ -52,11 +63,11 @@ const RankCategoryContainer = ({ categoryName }: Props) => {
         )
     } else {
         return (
-            <Flex flexDirection="column" marginTop="50px">
+            <Flex flexDirection="column" marginTop="82px">
                 {indexNumberArray.map((index) => {
                     return (
-                        <Flex key={index} alignItems="center" justifyContent="center" height="230px" fontSize={60} margin="7px">
-                            {index+1}
+                        <Flex key={index} alignItems="center" justifyContent="center" marginBottom="16px" height="232px" fontSize={60}>
+                            <Text color="blackAlpha.600">{index + 1}</Text>
                         </Flex>
                     )
                 })}

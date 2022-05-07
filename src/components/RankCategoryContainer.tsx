@@ -9,7 +9,6 @@ type Props = {
 
 const RankCategoryContainer = ({ categoryName }: Props) => {
     const [videoData, setVideoData] = useState<PanelTypes[]>()
-    const hogefuga = ['hoge', 'fuga']
 
     useEffect(() => {
         // 即時実行関数

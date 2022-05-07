@@ -1,11 +1,10 @@
 import React from 'react'
 import { Image, Text, Box, Flex, LinkOverlay, LinkBox } from '@chakra-ui/react'
 import YoutubeIcon from '../static/img/youtubeIcon.png'
+import { PanelTypes } from '../apis/fetchYoutubeApi'
 
 type Props = {
-    index: number
-    apiItems: string
-    videoApiItems: string
+    videoData: PanelTypes
 }
 
 /**
@@ -41,18 +40,16 @@ const makeShortSentence = (sentence: string) => {
     }
 }
 
-const Panel = (props: Props) => {
-    const parsedSearchApi = JSON.parse(props.apiItems || 'null')
-    const parsedVideoApi = JSON.parse(props.videoApiItems || 'null')
+const Panel = ({ videoData }: Props) => {
     return (
         <LinkBox>
-            <Box flexDirection="column" bg="teal.300" height="230px" width="200px" margin="7px" key={props.index}>
-                <LinkOverlay href={parsedSearchApi ? 'https://www.youtube.com/watch?v=' + parsedSearchApi[props.index].id.videoId : ''}></LinkOverlay>
-                <Image width={200} height="auto" src={parsedSearchApi ? parsedSearchApi[props.index].snippet.thumbnails.high.url : ''}></Image>
-                <Text fontSize={13}>{parsedSearchApi ? makeShortSentence(parsedSearchApi[props.index].snippet.title) : ''}</Text>
+            <Box flexDirection="column" bg="teal.300" height="230px" width="200px" margin="7px">
+                <LinkOverlay href={'https://www.youtube.com/watch?v=' + videoData.videoId}></LinkOverlay>
+                <Image width={200} height="auto" src={videoData.thumbnailsUrl}></Image>
+                <Text fontSize={13}>{videoData.title}</Text>
                 <Flex flexDirection="row" alignItems="center">
                     <Image src={YoutubeIcon} width="auto" height="15px"></Image>
-                    <Text> : {parsedVideoApi ? parsedVideoApi[props.index].statistics.viewCount : ''}</Text>
+                    <Text> : {videoData.viewCount}</Text>
                 </Flex>
             </Box>
         </LinkBox>

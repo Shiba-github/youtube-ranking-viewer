@@ -3,6 +3,71 @@ import { API_KEY } from '../../local/constants'
 import { subMonths, subWeeks, subDays, subHours, formatRFC3339 } from 'date-fns'
 type publishedAfterTypes = 'hourly' | 'daily' | 'weekly' | 'monthly'
 
+export type SearchResult = {
+    kind: string
+    etag: string
+    nextPageToken: string
+    regionCode: string
+    pageInfo: {
+        totalResults: number
+        resultsPerPage: number
+    }
+    items: Array<{
+        kind: string
+        etag: string
+        id: {
+            kind: string
+            videoId: string
+        }
+        snippet: {
+            publishedAt: string
+            channelId: string
+            title: string
+            description: string
+            thumbnails: {
+                default: {
+                    url: string
+                    width: number
+                    height: number
+                }
+                medium: {
+                    url: string
+                    width: number
+                    height: number
+                }
+                high: {
+                    url: string
+                    width: number
+                    height: number
+                }
+            }
+            channelTitle: string
+            liveBroadcastContent: string
+            publishTime: string
+        }
+    }>
+}
+
+export type VideoResult = {
+    kind: string
+    etag: string
+    items: Array<{
+        kind: string
+        etag: string
+        id: string
+        statistics: {
+            viewCount: string
+            likeCount: string
+            favoriteCount: string
+            commentCount: string
+        }
+    }>
+    pageInfo: {
+        totalResults: number
+        resultsPerPage: number
+    }
+}
+
 type youtubeSearchTypes = {
     part?: string
     channelId?: string
@@ -184,35 +249,37 @@ class YoutubeApiWrapper {
         videoLicense = 'any',
         videoSyndicated = 'any',
         videoType = 'any',
-    }: youtubeSearchTypes): Promise<JSON> {
-        return axios.get(this.BASE_URL + '/search', {
-            params: {
-                key: this.API_KEY,
-                part: part,
-                channelId: channelId,
-                channelType: channelType,
-                eventType: eventType,
-                maxResults: maxResults,
-                order: order,
-                pageToken: pageToken,
-                publishedAfter: formatRFC3339(this.publishedAfterTime(publishedAfter)),
-                publishedBefore: formatRFC3339(new Date()),
-                q: q,
-                // regionCode: regionCode,
-                safeSearch: safeSearch,
-                topicId: topicId,
-                type: type,
-                videoCaption: videoCaption,
-                // videoCategoryId: videoCategoryId,
-                videoDefinition: videoDefinition,
-                videoDimension: videoDimension,
-                videoDuration: videoDuration,
-                videoEmbeddable: videoEmbeddable,
-                videoLicense: videoLicense,
-                videoSyndicated: videoSyndicated,
-                videoType: videoType,
-            },
-        })
+    }: youtubeSearchTypes): Promise<SearchResult> {
+        return axios
+            .get(this.BASE_URL + '/search', {
+                params: {
+                    key: this.API_KEY,
+                    part: part,
+                    channelId: channelId,
+                    channelType: channelType,
+                    eventType: eventType,
+                    maxResults: maxResults,
+                    order: order,
+                    pageToken: pageToken,
+                    publishedAfter: formatRFC3339(this.publishedAfterTime(publishedAfter)),
+                    publishedBefore: formatRFC3339(new Date()),
+                    q: q,
+                    // regionCode: regionCode,
+                    safeSearch: safeSearch,
+                    topicId: topicId,
+                    type: type,
+                    videoCaption: videoCaption,
+                    // videoCategoryId: videoCategoryId,
+                    videoDefinition: videoDefinition,
+                    videoDimension: videoDimension,
+                    videoDuration: videoDuration,
+                    videoEmbeddable: videoEmbeddable,
+                    videoLicense: videoLicense,
+                    videoSyndicated: videoSyndicated,
+                    videoType: videoType,
+                },
+            })
+            .then((response) => response.data)
     }
 
     /**
@@ -259,18 +326,20 @@ class YoutubeApiWrapper {
         maxResults = 5,
         regionCode = '',
         videoCategoryId = '0',
-    }: youtubeVideosTypes): Promise<JSON> {
-        return axios.get(this.BASE_URL + '/videos', {
-            params: {
-                key: this.API_KEY,
-                part: part,
-                // chart: chart,
-                id: id,
-                maxResults: maxResults,
-                // regionCode: regionCode,
-                videoCategoryId: videoCategoryId,
-            },
-        })
+    }: youtubeVideosTypes): Promise<VideoResult> {
+        return axios
+            .get(this.BASE_URL + '/videos', {
+                params: {
+                    key: this.API_KEY,
+                    part: part,
+                    // chart: chart,
+                    id: id,
+                    maxResults: maxResults,
+                    // regionCode: regionCode,
+                    videoCategoryId: videoCategoryId,
+                },
+            })
+            .then((response) => response.data)
     }
 
     /**

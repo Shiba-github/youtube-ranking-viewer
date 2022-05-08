@@ -43,10 +43,11 @@ const makeShortSentence = (sentence: string) => {
 
 const Panel = ({ videoData }: Props) => {
     return (
-        <LinkBox>
-            <Flex flexDirection="column" marginBottom="16px" bg="white" boxShadow="md" rounded="8px" height="232px" width="300px">
-                <LinkOverlay href={'https://www.youtube.com/watch?v=' + videoData.videoId}></LinkOverlay>
-                <Image width="300px" height="168px" src={videoData.thumbnailsUrl} roundedTop="8px"></Image>
+        <Flex flexDirection="column" marginBottom="16px" bg="white" boxShadow="md" rounded="8px" height="232px" width="300px">
+            <LinkBox>
+                <LinkOverlay href={'https://www.youtube.com/watch?v=' + videoData.videoId}>
+                    <Image width="300px" height="168px" src={videoData.thumbnailsUrl} roundedTop="8px"></Image>
+                </LinkOverlay>
                 <Flex margin="8px" flexDirection="column">
                     <Flex marginBottom="4px">
                         <Text color="blackAlpha.600" fontWeight="normal" fontSize="16px" lineHeight="24px">
@@ -82,8 +83,8 @@ const Panel = ({ videoData }: Props) => {
                         </Flex>
                     </Flex>
                 </Flex>
-            </Flex>
-        </LinkBox>
+            </LinkBox>
+        </Flex>
     )
 }
 

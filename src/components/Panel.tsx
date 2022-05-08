@@ -1,9 +1,7 @@
 import React from 'react'
 import { MdCalendarToday as DateIcon, MdThumbUpOffAlt as GoodCountIcon, MdSmartDisplay as PlayCountIcon } from 'react-icons/md'
-import SampleThumbnail from '../static/img/sample_ thumbnail.png'
 import SampleChannelIcon from '../static/img/sample_channel_icon.jpeg'
 import { Image, Text, Flex, LinkOverlay, LinkBox, Spacer, Icon, Center } from '@chakra-ui/react'
-import YoutubeIcon from '../static/img/youtubeIcon.png'
 import { PanelTypes } from '../apis/fetchYoutubeApi'
 
 type Props = {
@@ -87,19 +85,6 @@ const Panel = ({ videoData }: Props) => {
             </Flex>
         </LinkBox>
     )
-    // return (
-    //     <LinkBox>
-    //         <Flex flexDirection="column" marginBottom="16px" bg="white" boxShadow="md" rounded="8px" height="232px" width="300px">
-    //             <LinkOverlay href={'https://www.youtube.com/watch?v=' + videoData.videoId}></LinkOverlay>
-    //             <Image width="300px" height="auto" src={videoData.thumbnailsUrl} roundedTop="8px"></Image>
-    //             <Text fontSize={13}>{videoData.title}</Text>
-    //             <Flex flexDirection="row" alignItems="center">
-    //                 <Image src={YoutubeIcon} width="auto" height="15px"></Image>
-    //                 <Text> : {videoData.viewCount}</Text>
-    //             </Flex>
-    //         </Flex>
-    //     </LinkBox>
-    // )
 }
 
 export default Panel

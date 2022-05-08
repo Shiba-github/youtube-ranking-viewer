@@ -1,13 +1,13 @@
 import React from 'react'
-import { Image, Text, Flex, LinkOverlay, LinkBox, Spacer, Icon, Center } from '@chakra-ui/react'
+import { MdCalendarToday as DateIcon, MdThumbUpOffAlt as GoodCountIcon, MdSmartDisplay as PlayCountIcon } from 'react-icons/md'
 import SampleThumbnail from '../static/img/sample_ thumbnail.png'
 import SampleChannelIcon from '../static/img/sample_channel_icon.jpeg'
-import { MdCalendarToday as DateIcon, MdThumbUpOffAlt as GoodCountIcon, MdSmartDisplay as PlayCountIcon } from 'react-icons/md'
+import { Image, Text, Flex, LinkOverlay, LinkBox, Spacer, Icon, Center } from '@chakra-ui/react'
+import YoutubeIcon from '../static/img/youtubeIcon.png'
+import { PanelTypes } from '../apis/fetchYoutubeApi'
 
 type Props = {
-    index: number
-    apiItems: string
-    videoApiItems: string
+    videoData: PanelTypes
 }
 
 /**
@@ -16,7 +16,7 @@ type Props = {
  * @returns {string} 長い場合は末尾に…をつけて返す
  */
 const makeShortSentence = (sentence: string) => {
-    const length = 75
+    const length = 20
     const isFullWiidth = (str: string) => {
         return str.match(/^[^\x01-\x7E\xA1-\xDF]+$/) ? true : false
     }
@@ -43,29 +43,23 @@ const makeShortSentence = (sentence: string) => {
     }
 }
 
-const Panel = (props: Props) => {
-    // const parsedSearchApi = JSON.parse(props.apiItems || 'null')
-    // const parsedVideoApi = JSON.parse(props.videoApiItems || 'null')
+const Panel = ({ videoData }: Props) => {
     return (
         <LinkBox>
-            <Flex flexDirection="column" marginBottom="16px" bg="white" boxShadow="md" rounded="8px" height="232px" width="300px" key={props.index}>
-                {/* <LinkOverlay href={parsedSearchApi ? 'https://www.youtube.com/watch?v=' + parsedSearchApi[props.index].id.videoId : ''}></LinkOverlay> */}
-                <Image width="300px" height="auto" src={SampleThumbnail} roundedTop="8px"></Image>
-                {/* <Image width={200} height="auto" src={parsedSearchApi ? parsedSearchApi[props.index].snippet.thumbnails.high.url : ''}></Image> */}
+            <Flex flexDirection="column" marginBottom="16px" bg="white" boxShadow="md" rounded="8px" height="232px" width="300px">
+                <LinkOverlay href={'https://www.youtube.com/watch?v=' + videoData.videoId}></LinkOverlay>
+                <Image width="300px" height="168px" src={videoData.thumbnailsUrl} roundedTop="8px"></Image>
                 <Flex margin="8px" flexDirection="column">
                     <Flex marginBottom="4px">
                         <Text color="blackAlpha.600" fontWeight="normal" fontSize="16px" lineHeight="24px">
-                            Java GUI ☕【Free】
+                            {makeShortSentence(videoData.title)}
                         </Text>
-                        {/* <Text fontSize={13}>{parsedSearchApi ? makeShortSentence(parsedSearchApi[props.index].snippet.title) : ''}</Text> */}
                         <Spacer />
                         <Flex flexDirection="row" alignItems="center">
                             <Image marginRight="4px" width="24px" height="auto" rounded="8px" src={SampleChannelIcon}></Image>
-                            {/* <Image src={YoutubeIcon} width="auto" height="15px"></Image> */}
                             <Text color="blackAlpha.600" fontWeight="medium" fontSize="14px" lineHeight="22px">
                                 Bro Code
                             </Text>
-                            {/* <Text> : {parsedVideoApi ? parsedVideoApi[props.index].statistics.viewCount : ''}</Text> */}
                         </Flex>
                     </Flex>
                     <Flex flexDirection="row">
@@ -79,7 +73,7 @@ const Panel = (props: Props) => {
                         <Flex marginRight="8px" alignItems="center">
                             <Icon as={PlayCountIcon} color="blackAlpha.500" marginRight="2px"></Icon>
                             <Text color="blackAlpha.500" fontSize="12px" lineHeight="20px">
-                                2251980
+                                {videoData.viewCount}
                             </Text>
                         </Flex>
                         <Flex alignItems="center">
@@ -93,6 +87,19 @@ const Panel = (props: Props) => {
             </Flex>
         </LinkBox>
     )
+    // return (
+    //     <LinkBox>
+    //         <Flex flexDirection="column" marginBottom="16px" bg="white" boxShadow="md" rounded="8px" height="232px" width="300px">
+    //             <LinkOverlay href={'https://www.youtube.com/watch?v=' + videoData.videoId}></LinkOverlay>
+    //             <Image width="300px" height="auto" src={videoData.thumbnailsUrl} roundedTop="8px"></Image>
+    //             <Text fontSize={13}>{videoData.title}</Text>
+    //             <Flex flexDirection="row" alignItems="center">
+    //                 <Image src={YoutubeIcon} width="auto" height="15px"></Image>
+    //                 <Text> : {videoData.viewCount}</Text>
+    //             </Flex>
+    //         </Flex>
+    //     </LinkBox>
+    // )
 }
 
 export default Panel

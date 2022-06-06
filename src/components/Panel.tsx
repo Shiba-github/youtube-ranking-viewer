@@ -1,6 +1,7 @@
 import React from 'react'
-import { Image, Text, Box, Flex, LinkOverlay, LinkBox } from '@chakra-ui/react'
-import YoutubeIcon from '../static/img/youtubeIcon.png'
+import { MdCalendarToday as DateIcon, MdThumbUpOffAlt as GoodCountIcon, MdSmartDisplay as PlayCountIcon } from 'react-icons/md'
+import SampleChannelIcon from '../static/img/sample_channel_icon.jpeg'
+import { Image, Text, Flex, LinkOverlay, LinkBox, Spacer, Icon, Center } from '@chakra-ui/react'
 import { PanelTypes } from '../apis/fetchYoutubeApi'
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
  * @returns {string} 長い場合は末尾に…をつけて返す
  */
 const makeShortSentence = (sentence: string) => {
-    const length = 75
+    const length = 20
     const isFullWiidth = (str: string) => {
         return str.match(/^[^\x01-\x7E\xA1-\xDF]+$/) ? true : false
     }
@@ -42,17 +43,48 @@ const makeShortSentence = (sentence: string) => {
 
 const Panel = ({ videoData }: Props) => {
     return (
-        <LinkBox>
-            <Box flexDirection="column" bg="teal.300" height="230px" width="200px" margin="7px">
-                <LinkOverlay href={'https://www.youtube.com/watch?v=' + videoData.videoId}></LinkOverlay>
-                <Image width={200} height="auto" src={videoData.thumbnailsUrl}></Image>
-                <Text fontSize={13}>{videoData.title}</Text>
-                <Flex flexDirection="row" alignItems="center">
-                    <Image src={YoutubeIcon} width="auto" height="15px"></Image>
-                    <Text> : {videoData.viewCount}</Text>
+        <Flex flexDirection="column" marginBottom="16px" bg="white" boxShadow="md" rounded="8px" height="232px" width="300px">
+            <LinkBox>
+                <LinkOverlay href={'https://www.youtube.com/watch?v=' + videoData.videoId}>
+                    <Image width="300px" height="168px" src={videoData.thumbnailsUrl} roundedTop="8px"></Image>
+                </LinkOverlay>
+                <Flex margin="8px" flexDirection="column">
+                    <Flex marginBottom="4px">
+                        <Text color="blackAlpha.600" fontWeight="normal" fontSize="16px" lineHeight="24px">
+                            {makeShortSentence(videoData.title)}
+                        </Text>
+                        <Spacer />
+                        <Flex flexDirection="row" alignItems="center">
+                            <Image marginRight="4px" width="24px" height="auto" rounded="8px" src={SampleChannelIcon}></Image>
+                            <Text color="blackAlpha.600" fontWeight="medium" fontSize="14px" lineHeight="22px">
+                                Bro Code
+                            </Text>
+                        </Flex>
+                    </Flex>
+                    <Flex flexDirection="row">
+                        <Spacer />
+                        <Flex marginRight="8px" alignItems="center">
+                            <Icon as={DateIcon} color="blackAlpha.500" marginRight="2px"></Icon>
+                            <Text color="blackAlpha.500" fontSize="12px" lineHeight="20px">
+                                2022/02/16
+                            </Text>
+                        </Flex>
+                        <Flex marginRight="8px" alignItems="center">
+                            <Icon as={PlayCountIcon} color="blackAlpha.500" marginRight="2px"></Icon>
+                            <Text color="blackAlpha.500" fontSize="12px" lineHeight="20px">
+                                {videoData.viewCount}
+                            </Text>
+                        </Flex>
+                        <Flex alignItems="center">
+                            <Icon as={GoodCountIcon} color="blackAlpha.500" marginRight="2px"></Icon>
+                            <Text color="blackAlpha.500" fontSize="12px" lineHeight="20px">
+                                980
+                            </Text>
+                        </Flex>
+                    </Flex>
                 </Flex>
-            </Box>
-        </LinkBox>
+            </LinkBox>
+        </Flex>
     )
 }
 

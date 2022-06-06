@@ -17,11 +17,22 @@ const RankCategoryContainer = ({ categoryName }: Props) => {
         })()
     }, [])
     if (typeof videoData === 'undefined') {
-        return <div>loading now....</div>
+        return <div>loading now...</div>
     }
     return (
-        <Flex flexDirection="column">
-            <Center bg="lightgray" height="50px" width="200px" marginLeft="7px">
+        <Flex flexDirection="column" padding="16px" borderRight="1px" borderColor="blackAlpha.300">
+            <Center
+                marginBottom="16px"
+                borderBottom="2px"
+                borderColor="blackAlpha.600"
+                borderStyle="solid"
+                color="blackAlpha.700"
+                fontSize="32px"
+                fontWeight="medium"
+                height="50px"
+                width="300px"
+                borderRadius="2px"
+            >
                 {categoryName}
             </Center>
             {videoData.map((video) => {
